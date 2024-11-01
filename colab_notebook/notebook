@@ -1,0 +1,180 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "MXXTuy_o0sjk",
+        "outputId": "bf96070e-8f1a-4db0-c693-fcab4a5ea484",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\u001b[?25l     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/156.5 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K     \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[90m╺\u001b[0m \u001b[32m153.6/156.5 kB\u001b[0m \u001b[31m4.7 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m156.5/156.5 kB\u001b[0m \u001b[31m2.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h  Preparing metadata (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.3/1.3 MB\u001b[0m \u001b[31m13.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m953.8/953.8 kB\u001b[0m \u001b[31m24.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m840.2/840.2 kB\u001b[0m \u001b[31m21.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m178.7/178.7 kB\u001b[0m \u001b[31m11.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h  Building wheel for chess (setup.py) ... \u001b[?25l\u001b[?25hdone\n"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install -q -U kaggle_environments"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import random\n",
+        "\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "from kaggle_environments import make, evaluate"
+      ],
+      "metadata": {
+        "id": "yz23vWHD0wcj"
+      },
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Опишем поведение агента, всегда играющего \"камень\" - это значение 0"
+      ],
+      "metadata": {
+        "id": "0kuo6IOxiRub"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%%writefile rock_agent.py\n",
+        "\n",
+        "#Example of the simple agent\n",
+        "#0 - rock\n",
+        "#1 - paper\n",
+        "#2 - scissors\n",
+        "def your_agent(observation, configuration):\n",
+        "    return 0"
+      ],
+      "metadata": {
+        "id": "bqTqV7B92rJ6",
+        "outputId": "ee8124e4-e8ac-4dda-d0df-4fd758787653",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Writing rock_agent.py\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.10/dist-packages/ipykernel/ipkernel.py:283: DeprecationWarning: `should_run_async` will not call `transform_cell` automatically in the future. Please pass the result to `transformed_cell` argument and any exception that happen during thetransform in `preprocessing_exc_tuple` in IPython 7.17 and above.\n",
+            "  and should_run_async(code)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Попробуем теперь использовать информацию о прошлых действиях противника. Опишем агента, который производит то же самое действие, что и оппонент на прошлом ходу"
+      ],
+      "metadata": {
+        "id": "et1J5hUGigeh"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%%writefile copy_opponent.py\n",
+        "\n",
+        "#Example\n",
+        "def copy_opponent(observation, configuration):\n",
+        "    #in case we have information about opponent last move\n",
+        "    if observation.step > 0:\n",
+        "        return observation.lastOpponentAction\n",
+        "    #initial step\n",
+        "    else:\n",
+        "        return random.randrange(0, configuration.signs)"
+      ],
+      "metadata": {
+        "id": "7l6Ttw6qi0jk"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Воспользуемся функцией evaluate из библиотеки kaggle_environments с помощью которой запустим наших агентов и проведем эксперимент на заданном количестве игр"
+      ],
+      "metadata": {
+        "id": "ExgIpXUVjbjN"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "evaluate(\n",
+        "    \"rps\", #environment to use - no need to change\n",
+        "    [\"rock_agent.py\", \"copy_opponent.py\"], #agents to evaluate\n",
+        "    configuration={\"episodeSteps\": 100} #number of episodes\n",
+        ")"
+      ],
+      "metadata": {
+        "id": "wv6Ip6M004xa"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "evaluate(\n",
+        "    \"rps\", #environment to use - no need to change\n",
+        "    [\"rock_agent.py\", \"paper\"], #agents to evaluate\n",
+        "    configuration={\"episodeSteps\": 100} #number of episodes\n",
+        ")"
+      ],
+      "metadata": {
+        "id": "FC6_QWe9k3rr"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
